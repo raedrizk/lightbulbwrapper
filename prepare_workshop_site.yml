@@ -1,0 +1,55 @@
+---
+- hosts: student01-node3
+  name: Prepare A microsite and deploy on node3 for student1 to serve the student files
+  become: yes
+  vars:
+    apache_webserver_port: 80
+    student_count: 1
+    instructor_name: RedHat
+
+  tasks:
+    - name: make sure httpd package is present
+      yum:
+        name: httpd
+        state: present
+      notify: restart apache service
+
+    - name: site-enabled directory is present
+      file:
+        name: /etc/httpd/conf/sites-enabled
+        state: directory
+
+    - name: copy httpd.conf
+      template:
+        src: httpd.conf
+        dest: /etc/httpd/conf/httpd.conf
+      notify: restart apache service
+
+    - name: copy index.html
+      template:
+        src: index.html
+        dest: /var/www/html/index.html
+
+    - name: student_filesdirectory is present
+      file:
+        name: /var/www/html/student_files
+        state: directory
+
+    - name: copy student files
+      copy:
+        src: "{{ item }}"
+        dest: /var/www/html/student_files
+      with_fileglob:
+        - student*
+
+    - name: make sure httpd is started and enabled
+      service:
+        name: httpd
+        state: started
+        enabled: yes
+
+  handlers:
+    - name: restart apache service
+      service:
+        name: httpd
+        state: restarted

@@ -1,0 +1,43 @@
+---
+- name: install tower
+  hosts: tower
+  become: true
+  tasks:
+  - name: download and unarchive ansible-tower
+    unarchive:
+      src: https://releases.ansible.com/ansible-tower/setup-bundle/ansible-tower-setup-bundle-latest.el7.tar.gz
+      dest: /tmp
+      remote_src: yes
+
+  - name: finding the unarchived directory
+    find:
+      paths: /tmp
+      file_type: directory
+      patterns: "ansible-tower-*"
+    register: files_matched
+
+  - name: configure admin_password to ansibleWS in the inventory file
+    lineinfile:
+      path: "{{ files_matched.files[0].path }}/inventory"
+      regexp: "^admin_password=''"
+      line: "admin_password='ansibleWS'"
+
+  - name: configure pg_password to ansibleWS in the inventory file
+    lineinfile:
+      path: "{{ files_matched.files[0].path }}/inventory"
+      regexp: "^pg_password=''"
+      line: "pg_password='ansibleWS'"
+
+  - name: configure rabbitmq_password to ansibleWS in the inventory file
+    lineinfile:
+      path: "{{ files_matched.files[0].path }}/inventory"
+      regexp: "^rabbitmq_password=''"
+      line: "rabbitmq_password='ansibleWS'"
+
+  - name: upgrade all packages to bring RHEL version to meet minimum reqs
+    yum:
+      name: '*'
+      state: latest
+
+  - name: run tower setup script and bypass the ec2 available memory to meet minimum reqs
+    shell: sudo /tmp/ansible-tower-setup-*/setup.sh -e '{"ansible_memtotal_mb":4000}'

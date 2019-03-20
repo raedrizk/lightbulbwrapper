@@ -1,0 +1,107 @@
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Ansible Workshop</title>
+  <link href='https://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
+  <style>
+body {
+    font-family: 'Open Sans', sans-serif;
+    text-align: center;
+}
+.container {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    -moz-transform: translateX(-50%) translateY(-50%);
+    -webkit-transform: translateX(-50%) translateY(-50%);
+    transform: translateX(-50%) translateY(-50%);
+    font-size: 150%;
+}
+footer {
+    width: 100%;
+    bottom: 0;
+    position: fixed;
+    font-size: 75%;
+}
+img {
+    margin: 0 auto;
+}
+table {
+    margin: 0 auto; /* or margin: 0 auto 0 auto */
+    font-size: 75%;
+  }
+</style>
+
+<script>
+
+function showFolderFileList() {
+	var select = document.getElementById("filelist");
+
+	for(i = 0; i < {{ student_count }}; i++) {
+		if((i+1)<10)
+			var studentNumber = "student0"+(i+1);
+		else
+			var studentNumber = "student"+(i+1);		
+		
+    select.options[select.options.length] = new Option(studentNumber, studentNumber+"-instances.txt");
+}
+}
+
+
+function openFile() {
+
+var sel = document.getElementById('filelist');
+
+window.open('student_files/'+sel.value);
+}
+</script>
+
+
+</head>
+<body onload="showFolderFileList()">
+<div class="container">
+Welcome to the Ansible workshop
+<br>
+Instructor: {{ instructor_name }}
+<br><br>
+<table class="fixed">
+    <col width="600px" />
+    <col width="30px" />
+    <col width="900px" />
+  <tr>
+    <td class="tg-iks7"> </td>
+    <td class="tg-iks7"></td>
+    <td class="tg-73oq" rowspan="6"><img src="https://www.ansible.com/hubfs/2017_Images/BrandPage/Brand-Assets/Ansible_RH_AnsibleAutomation_RGB_RedBlack.png" width="75%"/></td>
+  </tr>
+  <tr>
+    <td class="tg-iks7" align="right">Your assigned Student #: 
+  	     	<select id="filelist">
+
+		</select>
+    </td>
+    <td class="tg-iks7"></td>
+  </tr>
+  <tr>
+    <td class="tg-iks7" align="right" ><button type="button" onclick="openFile()">Download</button></td>
+    <td class="tg-iks7"></td>
+  </tr>
+
+  <tr>
+    <td class="tg-iks7" align="right">Access the lab <a target="_blank" href="http://ansible.redhatgov.io/standard/welcome/index.html">here</td>
+    <td class="tg-iks7"></td>
+  </tr>
+  <tr>
+    <td class="tg-iks7" align="right">Request Tower license <a target="_blank" href="https://www.ansible.com/workshop-license">here</a></td>
+    <td class="tg-iks7"></td>
+  </tr>
+  <tr>
+    <td class="tg-iks7" align="right"></td>
+    <td class="tg-iks7"></td>
+  </tr>
+</table>
+   
+   
+</div>
+
+</body>
+</html>
