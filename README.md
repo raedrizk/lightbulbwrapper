@@ -1,4 +1,4 @@
-# ARCHIVED! NO LONGER NEEDED
+# ARCHIVED! NO LONGER MAINTAINED OR USED
 
 
 ## Ansible Lightbulb provisioner wrapper
