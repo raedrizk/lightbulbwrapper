@@ -1,4 +1,7 @@
-# Ansible Lightbulb provisioner wrapper
+# ARCHIVED! NO LONGER NEEDED
+
+
+## Ansible Lightbulb provisioner wrapper
 
 This is meant to make provisioning the lab easier by having 1 script to provision, create a microsite hosted on node3 for student1 (the instructor) to serve student files, and install ansible tower for all students. The instances provisioned by default do not meet the minimum requirements for a tower install, so this upgrades the RHEL version and bypasses the memory total variable availanle to the playbook to meet the minimum requirements for the install while running on a smaller instance
 
